@@ -7,6 +7,9 @@
 import socket
 import threading
 lock = threading.Lock()
+lock2 = threading.Lock()
+lock3 = threading.Lock()
+
 
 # video_time_serv1 = 0
 # video_time_serv2 = 0
@@ -73,19 +76,25 @@ def serveClient(client, address, serv1, serv2, serv3):
     lock.release()
 
     if chosen == 1:
+        lock2.acquire()
         serv1.sendall(data)
+        lock2.release()
         response = serv1.recv(1024)
         client.sendall(response)
         client.close()
         return
     if chosen == 2:
+        lock2.acquire()
         serv2.sendall(data)
+        lock2.release()
         response = serv2.recv(1024)
         client.sendall(response)
         client.close()
         return
     if chosen == 3:
+        lock2.acquire()
         serv3.sendall(data)
+        lock2.release()
         response = serv3.recv(1024)
         client.sendall(response)
         client.close()
