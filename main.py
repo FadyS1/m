@@ -1,5 +1,5 @@
 # This is a sample Python script.
-import selectors
+
 # Press Shift+F10 to execute it or replace it with your code.
 # Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
 
@@ -96,14 +96,14 @@ def serveClient(client, address, serv1, serv2, serv3):
 def LB():
 
     # connecting to serv1
-    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as serv1:
-        serv1.connect(("192.168.0.101", 80))
+    serv1 = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    serv1.connect(("192.168.0.101", 80))
     # connecting to serv2
-    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as serv2:
-        serv2.connect(("192.168.0.102", 80))
-    # connecting to serv2
-    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as serv3:
-        serv3.connect(("192.168.0.103", 80))
+    serv2 = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    serv2.connect(("192.168.0.102", 80))
+    # connecting to serv3
+    serv3 = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    serv3.connect(("192.168.0.103", 80))
 
 
     # listening to hosts requests
@@ -122,3 +122,4 @@ if __name__ == '__main__':
     LB()
 
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
+
