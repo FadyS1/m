@@ -32,7 +32,10 @@ def serveClient(client, address, serv1, serv2, serv3):
     lock.acquire()
     # if request is Video.
     if request_kind == 'V':
-        if video_time_serv1 <= video_time_serv2:
+        if (video_time_serv3 + 1)/ (video_time_serv2 + 1) < 0.05 and duration <=5:
+            chosen = 3
+            video_time_serv3 += 3 * duration
+        elif video_time_serv1 <= video_time_serv2:
             chosen = 1
             video_time_serv1 += duration
         else:
