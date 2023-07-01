@@ -8,7 +8,7 @@ import socket
 import threading
 lock = threading.Lock()
 lock2 = threading.Lock()
-lock3 = threading.Lock()
+
 
 
 # video_time_serv1 = 0
