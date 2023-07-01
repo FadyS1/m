@@ -8,18 +8,21 @@ import socket
 import threading
 lock = threading.Lock()
 
-video_time_serv1 = 0
-video_time_serv2 = 0
-video_time_serv3 = 0
+# video_time_serv1 = 0
+# video_time_serv2 = 0
+# video_time_serv3 = 0
+#
+# picture_time_serv1 = 0
+# picture_time_serv2 = 0
+# picture_time_serv3 = 0
+#
+# music_time_serv1 = 0
+# music_time_serv2 = 0
+# music_time_serv3 = 0
 
-picture_time_serv1 = 0
-picture_time_serv2 = 0
-picture_time_serv3 = 0
-
-music_time_serv1 = 0
-music_time_serv2 = 0
-music_time_serv3 = 0
-
+aomes_serv1 = 0
+aomes_serv2 = 0
+aomes_serv3 = 0
 
 
 def serveClient(client, address, serv1, serv2, serv3):
@@ -29,62 +32,62 @@ def serveClient(client, address, serv1, serv2, serv3):
     duration = ord(data_str[1]) - ord('0')
     #chosen server number
     chosen = 0
-    global video_time_serv1, video_time_serv2, video_time_serv3, picture_time_serv1, picture_time_serv2, picture_time_serv3, music_time_serv1, music_time_serv2, music_time_serv3
+    global aomes_serv1, aomes_serv2, aomes_serv3
     lock.acquire()
     # if request is Video.
     if request_kind == 'V':
-        if (video_time_serv3 + 1)/ (video_time_serv2 + 1) < 0.05 and duration <=5:
+        if aomes_serv3 - ((aomes_serv1 + aomes_serv2)/2) < -30:
             chosen = 3
-            video_time_serv3 += 3 * duration
-        elif video_time_serv1 <= video_time_serv2:
+            aomes_serv3 += 3 * duration
+        elif aomes_serv1 <= aomes_serv2:
             chosen = 1
-            video_time_serv1 += duration
+            aomes_serv1 += duration
         else:
             chosen = 2
-            video_time_serv2 += duration
+            aomes_serv2 += duration
 
     # if request is Music.
     if request_kind == 'M':
-        if (music_time_serv1+1) / (music_time_serv3 +1) < 0.1:
-            if music_time_serv1 <= music_time_serv2:
+        if aomes_serv1 - aomes_serv3 < -15 or aomes_serv2 - aomes_serv3 < -15:
+            if aomes_serv1 <= aomes_serv2:
                 chosen = 1
-                music_time_serv1 += 2 * duration
+                aomes_serv1 += 2 * duration
             else:
                 chosen = 2
-                music_time_serv2 += 2 * duration
+                aomes_serv2 += 2 * duration
         else:
             chosen = 3
-            music_time_serv3 += duration
+            aomes_serv3 += duration
 
     # if request is Picture.
     if request_kind == 'P':
-        if (1+picture_time_serv3) / (picture_time_serv1+1) < 0.1 and duration <=5:
+        if aomes_serv3 - aomes_serv1 < -20 or aomes_serv3 - aomes_serv1 < -20:
             chosen = 3
-            music_time_serv3 += 2 * duration
-        elif picture_time_serv1 <= picture_time_serv2:
+            aomes_serv3 += 2 * duration
+        elif aomes_serv1 <= aomes_serv2:
             chosen = 1
-            picture_time_serv1 += duration
+            aomes_serv1 += duration
         else:
             chosen = 2
-            picture_time_serv2 += duration
+            aomes_serv2 += duration
     lock.release()
 
     if chosen == 1:
-        serv1.sendAll(data)
+        serv1.sendall(data)
         response = serv1.recv(1024)
-        client.sendAll(response)
+        client.sendall(response)
         client.close()
         return
     if chosen == 2:
-        serv2.sendAll(data)
+        serv2.sendall(data)
         response = serv2.recv(1024)
-        client.sendAll(response)
+        client.sendall(response)
         client.close()
         return
     if chosen == 3:
-        serv3.sendAll(data)
+        serv3.sendall(data)
         response = serv3.recv(1024)
-        client.sendAll(response)
+        client.sendall(response)
         client.close()
         return
 
