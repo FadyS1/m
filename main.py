@@ -24,8 +24,9 @@ music_time_serv3 = 0
 
 def serveClient(client, address, serv1, serv2, serv3):
     data = client.recv(2)
-    request_kind = chr(data[0])
-    duration = chr(data[1]) - '0'
+    data_str = data.decode('ascii')
+    request_kind = data_str[0]
+    duration = ord(data_str[1]) - ord('0')
     #chosen server number
     chosen = 0
     global video_time_serv1, video_time_serv2, video_time_serv3, picture_time_serv1, picture_time_serv2, picture_time_serv3, music_time_serv1, music_time_serv2, music_time_serv3
@@ -122,4 +123,3 @@ if __name__ == '__main__':
     LB()
 
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
-
